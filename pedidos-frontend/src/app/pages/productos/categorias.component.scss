@@ -1,7 +1,0 @@
-@use '../../shared/styles/page';
-
-label:has(input[type=checkbox]) {
-  flex-direction: row;
-  align-items: center;
-  gap: 0.5rem;
-}
