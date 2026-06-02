@@ -1,0 +1,46 @@
+<div class="page-header">
+  <h1>{{ modoEdicion() ? 'Editar Cliente' : 'Crear Cliente' }}</h1>
+  <p>Completa el formulario y pulsa <strong>Guardar</strong>. Los datos se envían al backend y se guardan en PostgreSQL.</p>
+</div>
+
+@if (mensaje(); as m) {
+  <div class="alert" [class.alert--ok]="m.tipo === 'ok'" [class.alert--error]="m.tipo === 'error'">{{ m.texto }}</div>
+}
+
+<div class="card">
+  <form class="form-grid" [formGroup]="form" (ngSubmit)="guardar()">
+    <label>
+      ID Cliente *
+      <input formControlName="idCliente" placeholder="CLI001" />
+    </label>
+    @if (modoEdicion()) {
+      <button type="button" class="btn btn--ghost" (click)="buscarParaEditar()">Cargar datos</button>
+    }
+    <label>
+      Nombre *
+      <input formControlName="nombre" />
+    </label>
+    <label>
+      Correo *
+      <input formControlName="correo" type="email" />
+    </label>
+    <label>
+      Género
+      <select formControlName="genero">
+        <option value="">Seleccione...</option>
+        <option value="femenino">Femenino</option>
+        <option value="masculino">Masculino</option>
+      </select>
+    </label>
+    <label>
+      Dirección
+      <input formControlName="direccion" />
+    </label>
+    <div class="actions">
+      <button type="submit" class="btn btn--primary" [disabled]="enviando()">
+        {{ modoEdicion() ? 'Actualizar' : 'Guardar' }}
+      </button>
+      <a routerLink="/clientes" class="btn btn--ghost">Volver al listado</a>
+    </div>
+  </form>
+</div>

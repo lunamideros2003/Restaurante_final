@@ -1,0 +1,46 @@
+<div class="page-header">
+  <h1>Carta del Restaurante</h1>
+  <p>Explora nuestros deliciosos platos.</p>
+</div>
+
+@if (error()) {
+  <div class="alert alert--error">{{ error() }}</div>
+}
+
+<div class="actions">
+  @if (esAdmin) {
+    <a routerLink="/productos/crear" class="btn btn--primary">+ Agregar Plato</a>
+  }
+  <button type="button" class="btn btn--ghost" (click)="cargar()">Actualizar Carta</button>
+</div>
+
+<div class="menu-grid">
+  @if (cargando()) {
+    <p class="empty">Cargando la carta...</p>
+  } @else if (productos().length === 0) {
+    <p class="empty">No hay platos disponibles en este momento.</p>
+  } @else {
+    @for (p of productos(); track p.idProducto) {
+      <div class="menu-card card">
+        <div class="menu-card__image-container">
+          <img [src]="getImagenAleatoria(p.idProducto)" 
+               [alt]="p.idProducto" 
+               class="menu-card__image">
+        </div>
+        <div class="menu-card__content">
+          <div class="menu-card__header">
+            <h3 class="menu-card__title">{{ p.idProducto }}</h3>
+            <span class="menu-card__price">{{ p.precio | number:'1.0-0' }} COP</span>
+          </div>
+          <p class="menu-card__description">{{ p.resena || 'Sin descripción disponible.' }}</p>
+          <div class="menu-card__footer">
+            <span class="menu-card__category" *ngIf="p.categoria">{{ p.categoria.nombre }}</span>
+            <button class="btn btn--primary btn--sm" (click)="agregarAlCarrito(p)">
+              Agregar al Pedido
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  }
+</div>

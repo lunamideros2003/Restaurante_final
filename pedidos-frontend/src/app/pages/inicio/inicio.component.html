@@ -1,0 +1,32 @@
+<div class="page-header">
+  <h1>Inicio</h1>
+  <p>Resumen en tiempo real desde PostgreSQL vía Spring Boot.</p>
+</div>
+
+@if (error()) {
+  <div class="alert alert--error">{{ error() }}</div>
+}
+
+@if (cargando()) {
+  <p class="empty">Cargando resumen...</p>
+} @else {
+  <div class="stats-grid">
+    @if (esAdmin) {
+      <div class="stat-card">
+        <strong>{{ clientes() }}</strong>
+        <span>Clientes</span>
+      </div>
+    }
+    <div class="stat-card">
+      <strong>{{ productos() }}</strong>
+      <span>Productos</span>
+    </div>
+    <div class="stat-card">
+      <strong>{{ pedidos() }}</strong>
+      <span>{{ esAdmin ? 'Pedidos' : 'Mis pedidos' }}</span>
+    </div>
+  </div>
+  <div class="card">
+    <p>Usa el menú lateral para crear, editar o consultar registros. Los datos se guardan en tu base PostgreSQL.</p>
+  </div>
+}

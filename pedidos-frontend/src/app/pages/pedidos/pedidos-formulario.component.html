@@ -1,0 +1,45 @@
+<div class="page-header">
+  <h1>Crear Pedido</h1>
+  <p>Requiere cliente y producto existentes en la BD. Precio &gt; 0.</p>
+</div>
+
+@if (mensaje(); as m) {
+  <div class="alert" [class.alert--ok]="m.tipo === 'ok'" [class.alert--error]="m.tipo === 'error'">{{ m.texto }}</div>
+}
+
+<div class="card">
+  <form class="form-grid" [formGroup]="form" (ngSubmit)="guardar()">
+    <label>ID Pedido * <input formControlName="idPedido" placeholder="PED001" /></label>
+    <label>Precio * <input formControlName="precio" type="number" step="0.01" min="0.01" /></label>
+    <label>Categoría * <input formControlName="categoria" /></label>
+    <label>Lugar de entrega * <input formControlName="lugarEntrega" /></label>
+    <label>
+      Cliente (ID) *
+      <input formControlName="idCliente" list="clientes-dl" placeholder="CLI001" [readonly]="esCliente" />
+      @if (!esCliente) {
+        <datalist id="clientes-dl">
+          @for (id of clientesIds(); track id) {
+            <option [value]="id"></option>
+          }
+        </datalist>
+      }
+      @if (esCliente) {
+        <span class="hint">Tu pedido se asocia automáticamente a tu cuenta.</span>
+      }
+    </label>
+    <label>
+      Producto (ID) *
+      <input formControlName="idProducto" list="productos-dl" placeholder="PROD001" />
+      <datalist id="productos-dl">
+        @for (id of productosIds(); track id) {
+          <option [value]="id"></option>
+        }
+      </datalist>
+    </label>
+    <p class="hint">Crea primero un cliente y un producto si las listas están vacías.</p>
+    <div class="actions">
+      <button type="submit" class="btn btn--primary">Crear pedido</button>
+      <a routerLink="/pedidos" class="btn btn--ghost">Ver pedidos</a>
+    </div>
+  </form>
+</div>

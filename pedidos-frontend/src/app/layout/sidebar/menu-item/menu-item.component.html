@@ -1,0 +1,82 @@
+<li class="menu-item" [class.menu-item--depth]="depth > 0">
+  
+  <!-- CASO 1: Es un link directo (tiene ruta y NO tiene hijos) -->
+  @if (tieneRuta && !tieneHijos) {
+    <a
+      class="menu-item__link"
+      [routerLink]="opcion.ruta!"
+      routerLinkActive="menu-item__link--active"
+      [style.paddingLeft.px]="16 + depth * 14"
+      [title]="collapsed ? opcion.nombre : ''"
+    >
+      @if (opcion.icono) {
+        <span class="material-icons menu-item__icon">{{ opcion.icono }}</span>
+      }
+      @if (!collapsed) {
+        <span class="menu-item__label">{{ opcion.nombre }}</span>
+      }
+    </a>
+  } 
+  
+  <!-- CASO 2: Es un link que TAMBIÉN tiene hijos (ej: sección principal con su propia página) -->
+  @else if (tieneRuta && tieneHijos) {
+    <div class="menu-item__row">
+      <a
+        class="menu-item__link menu-item__link--grow"
+        [routerLink]="opcion.ruta!"
+        routerLinkActive="menu-item__link--active"
+        [style.paddingLeft.px]="16 + depth * 14"
+        [title]="collapsed ? opcion.nombre : ''"
+      >
+        @if (opcion.icono) {
+          <span class="material-icons menu-item__icon">{{ opcion.icono }}</span>
+        }
+        @if (!collapsed) {
+          <span class="menu-item__label">{{ opcion.nombre }}</span>
+        }
+      </a>
+      @if (!collapsed) {
+        <!-- Botón para expandir/contraer los hijos -->
+        <button type="button" class="menu-item__toggle" (click)="alternar()" [attr.aria-expanded]="opcion.expanded">
+          <span class="material-icons">{{ opcion.expanded ? 'expand_less' : 'expand_more' }}</span>
+        </button>
+      }
+    </div>
+  } 
+  
+  <!-- CASO 3: Solo es un contenedor de hijos (no tiene ruta propia) -->
+  @else {
+    <button
+      type="button"
+      class="menu-item__link menu-item__link--button"
+      (click)="alClic()"
+      [style.paddingLeft.px]="16 + depth * 14"
+      [title]="collapsed ? opcion.nombre : ''"
+      [attr.aria-expanded]="tieneHijos ? opcion.expanded : null"
+    >
+      @if (opcion.icono) {
+        <span class="material-icons menu-item__icon">{{ opcion.icono }}</span>
+      }
+      @if (!collapsed) {
+        <span class="menu-item__label">{{ opcion.nombre }}</span>
+        @if (tieneHijos) {
+          <span class="material-icons menu-item__arrow">{{ opcion.expanded ? 'expand_less' : 'expand_more' }}</span>
+        }
+      }
+    </button>
+  }
+
+  <!-- RECURSIVIDAD EN UI: Aquí ocurre la magia. 
+       Si el nodo tiene hijos y está expandido, el componente se llama a sí mismo.
+       Cada <app-menu-item> creará su propia lista de hijos si los tiene. -->
+  @if (opcion.expanded && tieneHijos && !collapsed) {
+    <ul class="menu-item__children">
+      @for (hijo of opcion.hijos; track hijo.id) {
+        <li>
+          <!-- LLAMADA RECURSIVA: El componente se usa a sí mismo para el siguiente nivel -->
+          <app-menu-item [opcion]="hijo" [collapsed]="collapsed" [depth]="depth + 1" />
+        </li>
+      }
+    </ul>
+  }
+</li>

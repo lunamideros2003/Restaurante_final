@@ -1,0 +1,18 @@
+<div class="layout">
+  <app-sidebar />
+  <div class="layout__main">
+    <header class="layout__topbar">
+      @if (auth.session(); as s) {
+        <div class="layout__user">
+          <span class="layout__user-name">{{ s.nombre }}</span>
+          <span class="layout__user-rol">{{ s.rol === 'ADMIN' ? 'Administrador' : 'Cliente' }}</span>
+        </div>
+      }
+      <button type="button" class="btn btn--ghost layout__logout" (click)="cerrarSesion()">Salir</button>
+      <app-theme-toggle />
+    </header>
+    <main class="layout__content">
+      <router-outlet />
+    </main>
+  </div>
+</div>

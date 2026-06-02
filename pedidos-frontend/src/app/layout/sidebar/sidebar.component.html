@@ -1,0 +1,35 @@
+<aside class="sidebar" [class.sidebar--collapsed]="collapsed()">
+  <div class="sidebar__header">
+    @if (!collapsed()) {
+      <div class="sidebar__brand">
+        <span class="material-icons sidebar__logo">spa</span>
+        <div>
+          <h2>Restaurante Gourmet</h2>
+          <p>Sabor y Elegancia</p>
+        </div>
+      </div>
+    }
+    <button
+      type="button"
+      class="sidebar__toggle"
+      (click)="alternarSidebar()"
+      [attr.aria-label]="collapsed() ? 'Expandir menú' : 'Colapsar menú'"
+    >
+      <span class="material-icons">{{ collapsed() ? 'chevron_right' : 'chevron_left' }}</span>
+    </button>
+  </div>
+
+  <nav class="sidebar__nav">
+    @if (cargando()) {
+      <p class="sidebar__status">Cargando menú...</p>
+    } @else if (error()) {
+      <p class="sidebar__status sidebar__status--error">{{ error() }}</p>
+    } @else {
+      <ul class="sidebar__menu">
+        @for (opcion of menu(); track opcion.id) {
+          <app-menu-item [opcion]="opcion" [collapsed]="collapsed()" [depth]="0" />
+        }
+      </ul>
+    }
+  </nav>
+</aside>

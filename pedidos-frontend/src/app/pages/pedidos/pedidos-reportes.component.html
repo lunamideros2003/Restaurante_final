@@ -1,0 +1,42 @@
+<div class="page-header">
+  <h1>Reportes</h1>
+  <p>Resumen calculado desde los pedidos en la base de datos.</p>
+</div>
+
+@if (cargando()) {
+  <p class="empty">Generando reporte...</p>
+} @else {
+  <div class="stats-grid">
+    <div class="stat-card">
+      <strong>{{ totalPedidos() }}</strong>
+      <span>Total pedidos</span>
+    </div>
+    <div class="stat-card">
+      <strong>{{ totalVentas() | number:'1.2-2' }}</strong>
+      <span>Ventas ($)</span>
+    </div>
+    <div class="stat-card">
+      <strong>{{ promedio() | number:'1.2-2' }}</strong>
+      <span>Ticket promedio</span>
+    </div>
+  </div>
+
+  <div class="card table-wrap">
+    <h3>Pedidos por categoría</h3>
+    @if (porCategoria().length === 0) {
+      <p class="empty">Sin datos para reportar.</p>
+    } @else {
+      <table class="data-table">
+        <thead><tr><th>Categoría</th><th>Cantidad</th></tr></thead>
+        <tbody>
+          @for (r of porCategoria(); track r.nombre) {
+            <tr>
+              <td>{{ r.nombre }}</td>
+              <td>{{ r.cantidad }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+}

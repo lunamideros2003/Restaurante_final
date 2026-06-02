@@ -1,0 +1,21 @@
+<div class="page-header">
+  <h1>Eliminar Cliente</h1>
+  <p>Elimina por ID en la base de datos (DELETE /clientes/&#123;id&#125;).</p>
+</div>
+
+@if (mensaje(); as m) {
+  <div class="alert" [class.alert--ok]="m.tipo === 'ok'" [class.alert--error]="m.tipo === 'error'">{{ m.texto }}</div>
+}
+
+<div class="card">
+  <form class="form-grid" [formGroup]="form" (ngSubmit)="eliminar()">
+    <label>
+      ID Cliente a eliminar *
+      <input formControlName="idCliente" placeholder="CLI001" />
+    </label>
+    <div class="actions">
+      <button type="submit" class="btn btn--danger">Eliminar</button>
+      <a routerLink="/clientes" class="btn btn--ghost">Volver</a>
+    </div>
+  </form>
+</div>
