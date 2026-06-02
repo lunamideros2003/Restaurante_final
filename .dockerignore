@@ -1,0 +1,45 @@
+# Build artifacts
+target/
+*.jar
+*.war
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# IDE
+.idea/
+.vscode/
+.classpath
+.project
+.settings/
+*.iml
+*.iws
+*.ipr
+
+# Local dev artifacts
+.env
+.env.local
+*.log
+hs_err_pid*.log
+*.mv.db
+*.trace.db
+pedidosdb.*
+
+# Frontend (no es parte de este repo backend)
+node_modules/
+.angular/
+dist/
+
+# Documentación y assets no necesarios en el contenedor
+diagramas/
+docs/
+*.pdf
+README.md
+DEPLOY-RENDER.md
+migracion_restaurante.sql
+sql/
+
+# Tests
+src/test/

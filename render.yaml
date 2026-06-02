@@ -10,9 +10,8 @@ services:
     name: sistema-pedidos-api
     plan: free
     region: oregon
-    runtime: java
-    buildCommand: ./mvnw -DskipTests clean package
-    startCommand: java -jar target/pedidos-0.0.1-SNAPSHOT.jar
+    runtime: docker
+    dockerfilePath: ./Dockerfile
     healthCheckPath: /
     autoDeploy: true
     envVars:
