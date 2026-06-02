@@ -31,3 +31,14 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Local development artifacts ###
+.env
+.env.local
+*.log
+hs_err_pid*.log
+
+### H2 local database files ###
+*.mv.db
+*.trace.db
+pedidosdb.*
